@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -12,16 +13,9 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.7.0'  # Replace with the version you want
+          flutter-version: '3.7.0'  # Specify the Flutter version
           channel: stable
-          architecture: x64  # Change to x64 if ARM64 is not supported
-      - name: Checkout source code
-        uses: actions/checkout@v4
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: 'stable'
+          architecture: x64  # Adjust architecture if needed
 
       - name: Install Flutter dependencies
         run: flutter pub get
