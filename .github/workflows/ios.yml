@@ -13,29 +13,24 @@ jobs:
 
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      # Set up Flutter on the macOS machine
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: 'stable'
 
-      # Install Flutter dependencies
       - name: Install Flutter dependencies
         run: flutter pub get
 
-      # Ensure the iOS environment is set up (CocoaPods)
       - name: Install CocoaPods dependencies
         run: |
           cd ios
           pod install
 
-      # Build the iOS app without code signing
       - name: Build iOS app without code signing
         run: flutter build ios --no-codesign
 
-      # Export .ipa file
       - name: Export .ipa file
         run: |
           xcodebuild -exportArchive -archivePath build/ios/archive/Runner.xcarchive \
@@ -43,13 +38,11 @@ jobs:
             -exportOptionsPlist ios/Runner/ExportOptions.plist \
             -allowProvisioningUpdates
 
-      # Test using iOS Simulator
       - name: Test on iOS Simulator
         run: |
-          device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
-          flutter test
+          device=$(xcrun simctl list devices available | grep -m1 'iPhone' | awk -F '[()]' '{print $2}')
+          flutter test --device-id=$device
 
-      # Upload the .ipa file as an artifact
       - name: Upload .ipa Artifact
         uses: actions/upload-artifact@v3
         with:
