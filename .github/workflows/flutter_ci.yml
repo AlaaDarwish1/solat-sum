@@ -13,7 +13,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.7.0'  # Specify the Flutter version
+          flutter-version: '3.10.0'  # Specify the Flutter version
           channel: stable
           architecture: x64  # Adjust architecture if needed
 
