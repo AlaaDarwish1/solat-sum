@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "72391011120",
+    "project_id": "solat-sum",
+    "storage_bucket": "solat-sum.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72391011120:android:4ef55588f5873b2c4136f5",
+        "android_client_info": {
+          "package_name": "com.example.solat_sum"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBvzFGSIK-1ez0JT-M5L7Uo68GepJ65TY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
