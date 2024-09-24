@@ -7,39 +7,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Step 2: Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.10.0'  # Specify the Flutter version
           channel: stable
-          architecture: x64  # Adjust architecture if needed
+          architecture: x64  # Set to x64 architecture (if ARM64 is not needed)
 
+      # Step 3: Install Flutter dependencies
       - name: Install Flutter dependencies
         run: flutter pub get
 
+      # Step 4: Install CocoaPods dependencies for iOS
       - name: Install CocoaPods dependencies
         run: |
           cd ios
           pod install
 
+      # Step 5: Build iOS app without code signing
       - name: Build iOS app without code signing
         run: flutter build ios --no-codesign
 
+      # Step 6: Archive the iOS build and export .ipa file
       - name: Export .ipa file
         run: |
-          xcodebuild -exportArchive -archivePath build/ios/archive/Runner.xcarchive \
+          xcodebuild -exportArchive \
+            -archivePath build/ios/archive/Runner.xcarchive \
             -exportPath build/ios/ipa \
             -exportOptionsPlist ios/Runner/ExportOptions.plist \
             -allowProvisioningUpdates
 
+      # Step 7: Test the app on an iOS Simulator
       - name: Test on iOS Simulator
         run: |
           device=$(xcrun simctl list devices available | grep -m1 'iPhone' | awk -F '[()]' '{print $2}')
           flutter test --device-id=$device
 
+      # Step 8: Upload .ipa as a build artifact
       - name: Upload .ipa Artifact
         uses: actions/upload-artifact@v3
         with:
